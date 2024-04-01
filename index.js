@@ -29,11 +29,11 @@ const {
           }
   
           console.log("Database and tables created successfully.");
+          loadDataIntoDatabase();
           db.end(); // Close the connection when done
         });
   
         // If database was just created or already existed, load data into it
-        loadDataIntoDatabase();
   
       } else {
         console.log("Database already exists.");

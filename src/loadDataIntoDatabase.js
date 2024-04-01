@@ -18,7 +18,7 @@ function loadDataIntoDatabase() {
     path.join(__dirname, "../data/subjects.csv"),
     "utf-8"
   );
-
+  console.log('Episodes data:', episodesData);
   // 2. Parse the data.
   const colors = Papa.parse(colorsData, { header: true }).data;
   const episodes = Papa.parse(episodesData, { header: true }).data;
@@ -85,6 +85,7 @@ function loadDataIntoDatabase() {
   });
 
   // 5.3 Insert all episodes into the database and their associations.
+
   const episodePromises = episodes.map(async (episodeData, index) => {
     const title = episodeData.TITLE;
     const month = episodeData.DATE.replace(/ "/g, "").split(" ")[0];
@@ -93,6 +94,8 @@ function loadDataIntoDatabase() {
 
     const sql =
       "INSERT INTO Episodes (episode_title, season, episode, month) VALUES (?, ?, ?, ?)";
+      console.log('SQL query:', sql);
+    console.log('Parameters:', [title, season, episode, month]);
     try {
       const result = await query(sql, [title, season, episode, month]);
       console.log(`Successfully inserted episode ${title} into the database.`);
@@ -152,5 +155,4 @@ function loadDataIntoDatabase() {
       console.error("Error during database insertions:", error)
     );
 }
-
 module.exports = loadDataIntoDatabase;
